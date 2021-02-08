@@ -1,28 +1,31 @@
 <div class="container">
   <div class="rooms">
-    <div  *ngFor="let room of data; let i=index">
-      <div *ngIf="(i%4)===0">
+    <div  *ngFor="let eachEntry of data; let i=index;">
+      <div *ngIf="isValid(i ,eachEntry)">
         <div class="row mt-3">
           <div class="col-md-12">
             <mat-card class="text-center">
-             <h4> FLOOR {{room.floor}}</h4>
+             <h4> FLOOR {{eachEntry.floor}}</h4>
             </mat-card>
           </div>
         </div>
-        
-          <div class="row mt-3">
-              <div class="col-md-3"  *ngFor="let eachFloorRoom of data; let j=index">
-                  <mat-card *ngIf="(eachFloorRoom.floor === room.floor)">
-                    <img mat-card-image src={{eachFloorRoom.product_image}} alt="Room Image" width="150px" height="150px">
-                    <mat-card-content>
-                      <p><b>Room No.:</b>&nbsp; {{eachFloorRoom.room_no}}</p>
-                      <p><b>Room Type:</b>&nbsp; {{eachFloorRoom.room_type}}</p>
-                      <p><b>Price:</b>&nbsp; {{eachFloorRoom.product_price}}</p>
-                      <p><b>Status:</b>&nbsp; {{eachFloorRoom.status}}</p>
-                    </mat-card-content>
-                  </mat-card>
+        <div *ngFor="let eachRoom of getRoomsOfSameFloor(eachEntry.floor); let j=index;">
+          <div *ngIf="((j===0) && (eachRoom.floor === eachEntry.floor))">
+            <div class="row mt-3">
+              <div class="col-md-3 mt-3" *ngFor="let eachRoom of getRoomsOfSameFloor(eachEntry.floor)">
+                <mat-card>
+                  <img mat-card-image src={{eachRoom.product_image}} alt="Room Image" width="150px" height="150px">
+                  <mat-card-content>
+                    <p><b>Room No.:</b>&nbsp; {{eachRoom.room_no}}</p>
+                    <p><b>Room Type:</b>&nbsp; {{eachRoom.room_type}}</p>
+                    <p><b>Price:</b>&nbsp; {{eachRoom.product_price}}</p>
+                    <p><b>Status:</b>&nbsp; {{eachRoom.status}}</p>
+                  </mat-card-content>
+                </mat-card>
               </div>
+            </div>        
           </div>
+        </div>
       </div>
       </div>
   </div>
